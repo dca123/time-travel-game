@@ -1,124 +1,145 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-
-const inter = Inter({ subsets: ['latin'] })
+"use client";
+import Image from "next/image";
+import { Inter } from "next/font/google";
+import { useState } from "react";
+import { DndContext, useDraggable, useDroppable } from "@dnd-kit/core";
+import { clsx } from "clsx";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
+    <main className="flex flex-row space-x-3">
+      <div className="flex flex-col space-y-2">
+        <h1 className="text-md text-center font-light italic">Past</h1>
+        <EraBoard />
       </div>
-
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
+      <div className="flex flex-col space-y-2">
+        <h1 className="text-md text-center font-light italic">Present</h1>
+        <EraBoard />
       </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://beta.nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`${inter.className} mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p
-            className={`${inter.className} m-0 max-w-[30ch] text-sm opacity-50`}
-          >
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800 hover:dark:bg-opacity-30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`${inter.className} mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p
-            className={`${inter.className} m-0 max-w-[30ch] text-sm opacity-50`}
-          >
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`${inter.className} mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p
-            className={`${inter.className} m-0 max-w-[30ch] text-sm opacity-50`}
-          >
-            Explore the Next.js 13 playground.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`${inter.className} mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p
-            className={`${inter.className} m-0 max-w-[30ch] text-sm opacity-50`}
-          >
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
+      <div className="flex flex-col space-y-2">
+        <h1 className="text-md text-center font-light italic">Future</h1>
+        <EraBoard />
       </div>
     </main>
-  )
+  );
 }
+
+const EraBoard = () => {
+  const [player1Pos, setPlayer1Pos] = useState({ x: 0, y: 0 });
+  const [player2Pos, setPlayer2Pos] = useState({ x: 3, y: 3 });
+  return (
+    <div>
+      <DndContext
+        onDragEnd={(event) => {
+          if (event.over) {
+            console.log(event);
+            const { id } = event.over as { id: number };
+            const x = id % 4;
+            const y = Math.floor(id / 4);
+            if (event.active.id === "player-1") {
+              setPlayer1Pos({ x, y });
+            } else {
+              setPlayer2Pos({ x, y });
+            }
+          }
+        }}
+      >
+        <div className="relative border border-slate-400">
+          <PlayerPiece id="player-1" x={player1Pos.x} y={player1Pos.y} />
+          <PlayerPiece id="player-2" x={player2Pos.x} y={player2Pos.y} />
+
+          <div className="flex flex-row">
+            <Space id={0} isDark={false} />
+            <Space id={1} isDark={true} />
+            <Space id={2} isDark={false} />
+            <Space id={3} isDark={true} />
+          </div>
+          <div className="flex flex-row">
+            <Space id={4} isDark={true} />
+            <Space id={5} isDark={false} />
+            <Space id={6} isDark={true} />
+            <Space id={7} isDark={false} />
+          </div>
+          <div className="flex flex-row">
+            <Space id={8} isDark={false} />
+            <Space id={9} isDark={true} />
+            <Space id={10} isDark={false} />
+            <Space id={11} isDark={true} />
+          </div>
+          <div className="flex flex-row">
+            <Space id={12} isDark={true} />
+            <Space id={13} isDark={false} />
+            <Space id={14} isDark={true} />
+            <Space id={15} isDark={false} />
+          </div>
+        </div>
+      </DndContext>
+    </div>
+  );
+};
+type PlayerPieceProps = {
+  id: string;
+  x: number;
+  y: number;
+};
+const PlayerPiece = (props: PlayerPieceProps) => {
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+    id: props.id,
+  });
+  const style = transform
+    ? {
+        transform: `translate(${transform.x}px, ${transform.y}px)`,
+        left: `${props.x * 5 + 0.5}em`,
+        top: `${props.y * 5 + 0.5}em`,
+      }
+    : {
+        left: `${props.x * 5 + 0.5}em`,
+        top: `${props.y * 5 + 0.5}em`,
+      };
+  return (
+    <div
+      ref={setNodeRef}
+      {...attributes}
+      {...listeners}
+      className={clsx(
+        "absolute h-16 w-16 rounded-full ",
+        props.id === "player-1" ? "bg-red-400" : "bg-blue-400"
+      )}
+      style={style}
+    />
+  );
+};
+
+type SpaceProps = {
+  id: number;
+  isDark: boolean;
+};
+const Space = (props: SpaceProps) => {
+  const { isOver, setNodeRef } = useDroppable({
+    id: props.id,
+    data: {
+      id: props.id,
+    },
+  });
+  const style = {
+    backgroundColor: isOver ? "red" : "blue",
+  };
+  return (
+    <div
+      ref={setNodeRef}
+      className={clsx(
+        "h-20 w-20 ",
+        props.isDark ? "bg-slate-600" : "bg-slate-200"
+      )}
+    >
+      <p
+        className={clsx(
+          "select-none pl-1 pt-1 text-xs",
+          props.isDark ? "text-slate-200" : "text-slate-600"
+        )}
+      >
+        {props.id}
+      </p>
+    </div>
+  );
+};
